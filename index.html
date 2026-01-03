@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nectar.css - A classless CSS framework</title>
+    <style>
+        /* ================================
+   NECTAR.CSS - Landing Page Styles
+   ================================ */
+
+        :root {
+            --bg: #fff;
+            --bg-alt: #f0f0f0;
+            --text: #222;
+            --text-light: #666;
+            --heading: #111;
+            --link: #0060a0;
+            --button-bg: #e87840;
+            /* Помаранчевий */
+            --button-hover: #d86830;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --transition: 0.2s ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--text);
+            background: var(--bg);
+
+            /* Центрування на весь екран без прокрутки */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* === Language Toggle (Чорний квадрат із заокругленням) === */
+        #langToggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        #langToggle:hover {
+            transform: scale(1.05);
+        }
+
+        #langToggle:active {
+            transform: scale(0.95);
+        }
+
+        /* === Content === */
+        main {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        h1 {
+            color: var(--heading);
+            font-weight: 800;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* Buttons */
+        .cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        button.primary,
+        button.secondary {
+            padding: 0.8rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        button.primary {
+            background: var(--button-bg);
+            color: #fff;
+        }
+
+        button.primary:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 120, 64, 0.3);
+        }
+
+        button.secondary {
+            background: var(--bg-alt);
+            color: var(--text);
+        }
+
+        button.secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+        }
+
+        /* Grid Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature {
+            text-align: center;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            width: 100%;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dotted var(--text-light);
+        }
+
+        footer a:hover {
+            color: var(--button-bg);
+            border-bottom-style: solid;
+        }
+
+        @media (max-height: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                margin-bottom: 1rem;
+            }
+
+            .features {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="langToggle">UA</button>
+
+    <main>
+        <h1>🍑 Nectar.css</h1>
+        <p class="subtitle" id="subtitle">A classless CSS framework for semantic HTML</p>
+
+        <div class="cta">
+            <button class="primary" onclick="window.location.href='demo.html'" id="demoBtn">View Demo</button>
+            <button class="secondary" onclick="window.location.href='style.css'" download
+                id="downloadBtn">Download</button>
+        </div>
+
+        <p class="meta">~8KB • MIT License • No Dependencies</p>
+
+        <div class="features">
+            <div class="feature" id="feature1">No classes needed</div>
+            <div class="feature" id="feature2">Lightweight</div>
+            <div class="feature" id="feature3">Fully responsive</div>
+            <div class="feature" id="feature4">CSS variables</div>
+            <div class="feature" id="feature5">Modern browsers</div>
+            <div class="feature" id="feature6">Accessible</div>
+        </div>
+    </main>
+
+    <footer>
+        <p id="footer">
+            Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine
+        </p>
+    </footer>
+
+    <script>
+        // Language Toggle Logic
+        const langToggle = document.getElementById('langToggle');
+
+        // Зверни увагу: я вбудував посилання на твій профіль прямо в текст перекладу
+        const translations = {
+            en: {
+                subtitle: 'A classless CSS framework for semantic HTML',
+                demoBtn: 'View Demo',
+                downloadBtn: 'Download',
+                feature1: 'No classes needed',
+                feature2: 'Lightweight',
+                feature3: 'Fully responsive',
+                feature4: 'CSS variables',
+                feature5: 'Modern browsers',
+                feature6: 'Accessible',
+                footer: 'Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine'
+            },
+            ua: {
+                subtitle: 'CSS фреймворк без класів для семантичного HTML',
+                demoBtn: 'Демо',
+                downloadBtn: 'Завантажити',
+                feature1: 'Без класів',
+                feature2: 'Легкий (~8KB)',
+                feature3: 'Повністю адаптивний',
+                feature4: 'CSS змінні',
+                feature5: 'Сучасні браузери',
+                feature6: 'Доступність (a11y)',
+                footer: 'Створив <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> з любовʼю до України'
+            }
+        };
+
+        const savedLang = localStorage.getItem('lang') || 'en';
+        document.documentElement.lang = savedLang;
+        langToggle.textContent = savedLang === 'en' ? 'UA' : 'EN';
+
+        if (savedLang === 'ua') {
+            updateContent('ua');
+        }
+
+        langToggle.addEventListener('click', () => {
+            const currentLang = document.documentElement.lang;
+            const newLang = currentLang === 'en' ? 'ua' : 'en';
+
+            document.documentElement.lang = newLang;
+            langToggle.textContent = newLang === 'en' ? 'UA' : 'EN';
+
+            localStorage.setItem('lang', newLang);
+            updateContent(newLang);
+        });
+
+        function updateContent(lang) {
+            const t = translations[lang];
+
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('demoBtn').textContent = t.demoBtn;
+            document.getElementById('downloadBtn').textContent = t.downloadBtn;
+            document.getElementById('feature1').textContent = t.feature1;
+            document.getElementById('feature2').textContent = t.feature2;
+            document.getElementById('feature3').textContent = t.feature3;
+            document.getElementById('feature4').textContent = t.feature4;
+            document.getElementById('feature5').textContent = t.feature5;
+            document.getElementById('feature6').textContent = t.feature6;
+
+            // Оновлюємо футер (тут уже не потрібен додатковий лінк на гітхаб, бо він є в тексті вище)
+            document.getElementById('footer').innerHTML = t.footer;
+        }
+    </script>
+</body>
+
+</html>
