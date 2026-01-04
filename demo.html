@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nectar.css — Demo</title>
     <link rel="stylesheet" href="nectar.css">
+    
     <style>
         /* Стилі для кнопок управління (як на головній) */
         .control-btn {
@@ -19,24 +20,51 @@
             font-weight: bold;
             font-size: 18px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
-        .control-btn:hover { transform: scale(1.05); }
-        .control-btn:active { transform: scale(0.95); }
+        
+        .control-btn:hover {
+            transform: scale(1.05);
+            background-color: #222;
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+        }
 
-        #themeToggle { right: 75px; font-size: 20px; }
-        #langToggle { right: 20px; font-size: 14px; }
+        #themeToggle {
+            right: 75px;
+            font-size: 20px;
+        }
 
+        #langToggle {
+            right: 20px;
+            font-size: 14px;
+        }
+
+        /* Адаптив для кнопок на мобільних */
         @media (max-width: 768px) {
-            body { padding-top: 80px; }
-            #themeToggle { top: 15px; right: 70px; width: 40px; height: 40px; }
-            #langToggle { top: 15px; right: 15px; width: 40px; height: 40px; }
+            body {
+                padding-top: 80px; /* Місце під кнопки */
+            }
+            #themeToggle {
+                top: 15px;
+                right: 70px;
+                width: 40px;
+                height: 40px;
+            }
+            #langToggle {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -50,18 +78,21 @@
     <button id="langToggle" class="control-btn" title="Змінити мову">EN</button>
     
     <script>
-        // Theme Toggle
+        // === ЛОГІКА ТЕМИ ===
         const themeToggle = document.getElementById('themeToggle');
         const root = document.documentElement;
         
-        // Перевірка збереженої теми
+        // Перевіряємо, що збережено в пам'яті
+        // Якщо нічого - залишаємо світлу (авто-тему вимкнено)
         const savedTheme = localStorage.getItem('theme');
+        
         if (savedTheme === 'dark') {
             root.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
+            themeToggle.title = 'Світла тема';
         } else {
-            // За замовчуванням світла, бо ми прибрали авто-перемикання
             themeToggle.textContent = '🌙';
+            themeToggle.title = 'Темна тема';
         }
         
         themeToggle.addEventListener('click', () => {
@@ -69,56 +100,567 @@
             
             if (root.classList.contains('dark-theme')) {
                 themeToggle.textContent = '☀️';
+                themeToggle.title = document.documentElement.lang === 'uk' ? 'Світла тема' : 'Light theme';
                 localStorage.setItem('theme', 'dark');
             } else {
                 themeToggle.textContent = '🌙';
+                themeToggle.title = document.documentElement.lang === 'uk' ? 'Темна тема' : 'Dark theme';
                 localStorage.setItem('theme', 'light');
             }
         });
         
-        // Language Toggle (Залиш попередній JS код для мови тут, він був робочий)
-        // ... (скопіюй JS для мови з минулої версії demo.html, лише зміни переклади заголовків якщо треба)
-        // Для економії місця я не дублюю весь об'єкт translations, 
-        // але переконайся, що він тут є.
-        
+        // === ЛОГІКА МОВИ ===
         const langToggle = document.getElementById('langToggle');
-        // ... (весь код translations з попереднього файлу) ...
+        
         const translations = {
             uk: {
-                title: '🍑 Nectar.css', // Оновив емодзі тут
-                // ... всі інші переклади ...
+                title: '🍑 Nectar.css',
+                subtitle: 'Демонстрація всіх елементів',
+                typography: 'Типографіка',
+                h1: 'Заголовок H1',
+                h2: 'Заголовок H2',
+                h3: 'Заголовок H3',
+                h4: 'Заголовок H4',
+                h5: 'Заголовок H5',
+                h6: 'Заголовок H6',
+                paragraph: 'Це звичайний параграф тексту. Він містить <strong>жирний текст</strong>, <em>курсив</em>, та <a href="#">посилання</a>. Також можна використовувати <mark>виділений текст</mark>, <code>інлайн код</code>, <kbd>Ctrl</kbd>+<kbd>C</kbd> для клавіатурних комбінацій, та <abbr title="HyperText Markup Language">HTML</abbr> абревіатури.',
+                special: 'Ще текст з спеціальними символами: x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup> та H<sub>2</sub>O.',
+                small: 'Це маленький текст для додаткової інформації.',
+                quote: 'Це цитата. Вона виділяється візуально від основного тексту і має бокову лінію зліва.',
+                codeComment: '// Приклад коду',
+                codeFunction: 'function hello() {\n    console.log("Привіт, світ!");\n    return true;\n}',
+                lists: 'Списки',
+                ulTitle: 'Ненумерований список',
+                ulItem1: 'Перший елемент списку',
+                ulItem2: 'Другий елемент списку',
+                ulItem3: 'Третій елемент з підсписком:',
+                ulNested1: 'Вкладений елемент 1',
+                ulNested2: 'Вкладений елемент 2',
+                ulItem4: 'Четвертий елемент',
+                olTitle: 'Нумерований список',
+                olItem1: 'Перший крок',
+                olItem2: 'Другий крок',
+                olItem3: 'Третій крок',
+                olItem4: 'Четвертий крок',
+                dlTitle: 'Description list',
+                dlHtml: 'HyperText Markup Language - мова розмітки',
+                dlCss: 'Cascading Style Sheets - каскадні таблиці стилів',
+                dlJs: 'Мова програмування для веб-браузерів',
+                tables: 'Таблиці',
+                thName: 'Ім\'я',
+                thAge: 'Вік',
+                thCity: 'Місто',
+                forms: 'Форми',
+                labelName: 'Ім\'я:',
+                placeholderName: 'Введіть ваше ім\'я',
+                labelPassword: 'Пароль:',
+                placeholderPassword: '••••••••',
+                labelNumber: 'Число:',
+                labelDate: 'Дата:',
+                labelColor: 'Колір:',
+                labelRange: 'Діапазон:',
+                labelCountry: 'Країна:',
+                country1: 'Україна',
+                country2: 'Польща',
+                country3: 'Німеччина',
+                country4: 'США',
+                labelMessage: 'Повідомлення:',
+                placeholderMessage: 'Ваше повідомлення...',
+                labelFile: 'Файл:',
+                legendSettings: 'Налаштування',
+                checkNews: 'Отримувати новини',
+                checkTerms: 'Погоджуюсь з умовами',
+                legendSubscription: 'Тип підписки',
+                radioFree: 'Безкоштовна',
+                radioPremium: 'Преміум',
+                labelProgress: 'Прогрес:',
+                labelMeter: 'Використання:',
+                btnSubmit: 'Відправити',
+                btnReset: 'Скасувати',
+                btnDisabled: 'Неактивна',
+                media: 'Медіа (Audio & Video)',
+                audioTitle: 'Audio плеєр',
+                audioError: 'Ваш браузер не підтримує audio елемент.',
+                videoTitle: 'Video плеєр',
+                videoError: 'Ваш браузер не підтримує video елемент.',
+                images: 'Зображення',
+                figcaption: 'Програмування - мистецтво створювати з нічого',
+                imageText: 'Зображення автоматично адаптуються до ширини контейнера завдяки <code>max-width: 100%</code>.',
+                details: 'Details & Summary',
+                summaryClick: 'Натисніть, щоб розгорнути',
+                detailsText: 'Це прихований контент, який показується після натискання на summary. Дуже зручно для FAQ або додаткової інформації.',
+                summaryOpen: 'Це вже відкрито',
+                detailsOpen: 'Цей блок відкритий за замовчуванням завдяки атрибуту <code>open</code>.',
+                footer: 'Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine',
+                footerLink: '← Повернутись на головну',
+                themeLight: 'Світла тема',
+                themeDark: 'Темна тема'
             },
             en: {
-                title: '🍑 Nectar.css', // Оновив емодзі тут
-                // ... всі інші переклади ...
+                title: '🍑 Nectar.css',
+                subtitle: 'Demonstration of all elements',
+                typography: 'Typography',
+                h1: 'Heading H1',
+                h2: 'Heading H2',
+                h3: 'Heading H3',
+                h4: 'Heading H4',
+                h5: 'Heading H5',
+                h6: 'Heading H6',
+                paragraph: 'This is a regular paragraph of text. It contains <strong>bold text</strong>, <em>italic</em>, and <a href="#">links</a>. You can also use <mark>highlighted text</mark>, <code>inline code</code>, <kbd>Ctrl</kbd>+<kbd>C</kbd> for keyboard shortcuts, and <abbr title="HyperText Markup Language">HTML</abbr> abbreviations.',
+                special: 'More text with special characters: x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup> and H<sub>2</sub>O.',
+                small: 'This is small text for additional information.',
+                quote: 'This is a quote. It is visually distinguished from the main text and has a side line on the left.',
+                codeComment: '// Code example',
+                codeFunction: 'function hello() {\n    console.log("Hello, world!");\n    return true;\n}',
+                lists: 'Lists',
+                ulTitle: 'Unordered list',
+                ulItem1: 'First list item',
+                ulItem2: 'Second list item',
+                ulItem3: 'Third item with nested list:',
+                ulNested1: 'Nested item 1',
+                ulNested2: 'Nested item 2',
+                ulItem4: 'Fourth item',
+                olTitle: 'Ordered list',
+                olItem1: 'First step',
+                olItem2: 'Second step',
+                olItem3: 'Third step',
+                olItem4: 'Fourth step',
+                dlTitle: 'Description list',
+                dlHtml: 'HyperText Markup Language - markup language',
+                dlCss: 'Cascading Style Sheets - styling language',
+                dlJs: 'Programming language for web browsers',
+                tables: 'Tables',
+                thName: 'Name',
+                thAge: 'Age',
+                thCity: 'City',
+                forms: 'Forms',
+                labelName: 'Name:',
+                placeholderName: 'Enter your name',
+                labelPassword: 'Password:',
+                placeholderPassword: '••••••••',
+                labelNumber: 'Number:',
+                labelDate: 'Date:',
+                labelColor: 'Color:',
+                labelRange: 'Range:',
+                labelCountry: 'Country:',
+                country1: 'Ukraine',
+                country2: 'Poland',
+                country3: 'Germany',
+                country4: 'USA',
+                labelMessage: 'Message:',
+                placeholderMessage: 'Your message...',
+                labelFile: 'File:',
+                legendSettings: 'Settings',
+                checkNews: 'Receive news',
+                checkTerms: 'I agree to the terms',
+                legendSubscription: 'Subscription type',
+                radioFree: 'Free',
+                radioPremium: 'Premium',
+                labelProgress: 'Progress:',
+                labelMeter: 'Usage:',
+                btnSubmit: 'Submit',
+                btnReset: 'Reset',
+                btnDisabled: 'Disabled',
+                media: 'Media (Audio & Video)',
+                audioTitle: 'Audio player',
+                audioError: 'Your browser does not support the audio element.',
+                videoTitle: 'Video player',
+                videoError: 'Your browser does not support the video element.',
+                images: 'Images',
+                figcaption: 'Programming - the art of creating from nothing',
+                imageText: 'Images automatically adapt to container width thanks to <code>max-width: 100%</code>.',
+                details: 'Details & Summary',
+                summaryClick: 'Click to expand',
+                detailsText: 'This is hidden content that appears after clicking on summary. Very useful for FAQ or additional information.',
+                summaryOpen: 'This is already open',
+                detailsOpen: 'This block is open by default thanks to the <code>open</code> attribute.',
+                footer: 'Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine',
+                footerLink: '← Back to home',
+                themeLight: 'Light theme',
+                themeDark: 'Dark theme'
             }
         };
         
-        // Додай логіку перемикання мови, як було раніше...
         const savedLang = localStorage.getItem('lang') || 'uk';
         document.documentElement.lang = savedLang;
         langToggle.textContent = savedLang === 'uk' ? 'EN' : 'UA';
-
-        // Проста функція для перемикання (скорочена версія)
+        
+        if (savedLang === 'en') {
+            updateContent('en');
+        }
+        
         langToggle.addEventListener('click', () => {
-             const newLang = document.documentElement.lang === 'uk' ? 'en' : 'uk';
-             document.documentElement.lang = newLang;
-             langToggle.textContent = newLang === 'uk' ? 'EN' : 'UA';
-             localStorage.setItem('lang', newLang);
-             location.reload(); // Найпростіший спосіб оновити контент в демо, 
-                                // або використовуй функцію updateContent() як раніше
+            const currentLang = document.documentElement.lang;
+            const newLang = currentLang === 'uk' ? 'en' : 'uk';
+            document.documentElement.lang = newLang;
+            langToggle.textContent = newLang === 'uk' ? 'EN' : 'UA';
+            localStorage.setItem('lang', newLang);
+            updateContent(newLang);
+            
+            // Update theme button title
+            if (root.classList.contains('dark-theme')) {
+                themeToggle.title = translations[newLang].themeDark;
+            } else {
+                themeToggle.title = translations[newLang].themeLight;
+            }
         });
+        
+        function updateContent(lang) {
+            const t = translations[lang];
+            
+            document.querySelector('header h1').innerHTML = t.title;
+            document.querySelector('header p').textContent = t.subtitle;
+            
+            const sections = document.querySelectorAll('section');
+            
+            // Typography
+            sections[0].querySelector('h2').textContent = t.typography;
+            sections[0].querySelectorAll('h1')[0].textContent = t.h1;
+            sections[0].querySelectorAll('h2')[1].textContent = t.h2;
+            sections[0].querySelector('h3').textContent = t.h3;
+            sections[0].querySelector('h4').textContent = t.h4;
+            sections[0].querySelector('h5').textContent = t.h5;
+            sections[0].querySelector('h6').textContent = t.h6;
+            sections[0].querySelectorAll('p')[0].innerHTML = t.paragraph;
+            sections[0].querySelectorAll('p')[1].innerHTML = t.special;
+            sections[0].querySelectorAll('p')[2].innerHTML = '<small>' + t.small + '</small>';
+            sections[0].querySelector('blockquote p').textContent = t.quote;
+            sections[0].querySelector('pre code').textContent = t.codeComment + '\n' + t.codeFunction;
+            
+            // Lists
+            sections[1].querySelector('h2').textContent = t.lists;
+            sections[1].querySelectorAll('h3')[0].textContent = t.ulTitle;
+            sections[1].querySelectorAll('ul')[0].innerHTML = `
+                <li>${t.ulItem1}</li>
+                <li>${t.ulItem2}</li>
+                <li>${t.ulItem3}
+                    <ul>
+                        <li>${t.ulNested1}</li>
+                        <li>${t.ulNested2}</li>
+                    </ul>
+                </li>
+                <li>${t.ulItem4}</li>
+            `;
+            sections[1].querySelectorAll('h3')[1].textContent = t.olTitle;
+            sections[1].querySelector('ol').innerHTML = `
+                <li>${t.olItem1}</li>
+                <li>${t.olItem2}</li>
+                <li>${t.olItem3}</li>
+                <li>${t.olItem4}</li>
+            `;
+            sections[1].querySelectorAll('h3')[2].textContent = t.dlTitle;
+            sections[1].querySelector('dl').innerHTML = `
+                <dt>HTML</dt>
+                <dd>${t.dlHtml}</dd>
+                <dt>CSS</dt>
+                <dd>${t.dlCss}</dd>
+                <dt>JavaScript</dt>
+                <dd>${t.dlJs}</dd>
+            `;
+            
+            // Tables
+            sections[2].querySelector('h2').textContent = t.tables;
+            sections[2].querySelectorAll('th')[0].textContent = t.thName;
+            sections[2].querySelectorAll('th')[1].textContent = t.thAge;
+            sections[2].querySelectorAll('th')[2].textContent = t.thCity;
+            
+            // Forms
+            sections[3].querySelector('h2').textContent = t.forms;
+            sections[3].querySelectorAll('label')[0].textContent = t.labelName;
+            sections[3].querySelector('#name').placeholder = t.placeholderName;
+            sections[3].querySelectorAll('label')[1].textContent = 'Email:';
+            sections[3].querySelectorAll('label')[2].textContent = t.labelPassword;
+            sections[3].querySelector('#password').placeholder = t.placeholderPassword;
+            sections[3].querySelectorAll('label')[3].textContent = t.labelNumber;
+            sections[3].querySelectorAll('label')[4].textContent = t.labelDate;
+            sections[3].querySelectorAll('label')[5].textContent = t.labelColor;
+            sections[3].querySelectorAll('label')[6].textContent = t.labelRange;
+            sections[3].querySelectorAll('label')[7].textContent = t.labelCountry;
+            sections[3].querySelector('#country').innerHTML = `
+                <option>${t.country1}</option>
+                <option>${t.country2}</option>
+                <option>${t.country3}</option>
+                <option>${t.country4}</option>
+            `;
+            sections[3].querySelectorAll('label')[8].textContent = t.labelMessage;
+            sections[3].querySelector('#message').placeholder = t.placeholderMessage;
+            sections[3].querySelectorAll('label')[9].textContent = t.labelFile;
+            sections[3].querySelectorAll('legend')[0].textContent = t.legendSettings;
+            sections[3].querySelectorAll('fieldset')[0].querySelectorAll('label')[0].innerHTML = `<input type="checkbox"> ${t.checkNews}`;
+            sections[3].querySelectorAll('fieldset')[0].querySelectorAll('label')[1].innerHTML = `<input type="checkbox"> ${t.checkTerms}`;
+            sections[3].querySelectorAll('legend')[1].textContent = t.legendSubscription;
+            sections[3].querySelectorAll('fieldset')[1].querySelectorAll('label')[0].innerHTML = `<input type="radio" name="subscription" checked> ${t.radioFree}`;
+            sections[3].querySelectorAll('fieldset')[1].querySelectorAll('label')[1].innerHTML = `<input type="radio" name="subscription"> ${t.radioPremium}`;
+            sections[3].querySelectorAll('label')[10].textContent = t.labelProgress;
+            sections[3].querySelectorAll('label')[11].textContent = t.labelMeter;
+            sections[3].querySelector('button[type="submit"]').textContent = t.btnSubmit;
+            sections[3].querySelector('input[type="reset"]').value = t.btnReset;
+            sections[3].querySelector('button[disabled]').textContent = t.btnDisabled;
+            
+            // Media
+            sections[4].querySelector('h2').textContent = t.media;
+            sections[4].querySelectorAll('h3')[0].textContent = t.audioTitle;
+            sections[4].querySelector('audio').innerHTML = `
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                ${t.audioError}
+            `;
+            sections[4].querySelectorAll('h3')[1].textContent = t.videoTitle;
+            sections[4].querySelector('video').innerHTML = `
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                ${t.videoError}
+            `;
+            
+            // Images
+            sections[5].querySelector('h2').textContent = t.images;
+            sections[5].querySelector('figcaption').textContent = t.figcaption;
+            sections[5].querySelector('p').innerHTML = t.imageText;
+            
+            // Details
+            sections[6].querySelector('h2').textContent = t.details;
+            sections[6].querySelectorAll('summary')[0].textContent = t.summaryClick;
+            sections[6].querySelectorAll('details')[0].querySelector('p').textContent = t.detailsText;
+            sections[6].querySelectorAll('summary')[1].textContent = t.summaryOpen;
+            sections[6].querySelectorAll('details')[1].querySelector('p').innerHTML = t.detailsOpen;
+            
+            // Footer
+            document.querySelectorAll('footer p')[0].innerHTML = t.footer;
+            document.querySelectorAll('footer p')[1].innerHTML = `<a href="index.html">${t.footerLink}</a>`;
+        }
     </script>
 
     <main>
         <section>
             <h2>Типографіка</h2>
-            <p>Приклад тексту...</p>
-            </section>
+            
+            <h1>Заголовок H1</h1>
+            <h2>Заголовок H2</h2>
+            <h3>Заголовок H3</h3>
+            <h4>Заголовок H4</h4>
+            <h5>Заголовок H5</h5>
+            <h6>Заголовок H6</h6>
+            
+            <p>Це звичайний параграф тексту. Він містить <strong>жирний текст</strong>, <em>курсив</em>, та <a href="#">посилання</a>. Також можна використовувати <mark>виділений текст</mark>, <code>інлайн код</code>, <kbd>Ctrl</kbd>+<kbd>C</kbd> для клавіатурних комбінацій, та <abbr title="HyperText Markup Language">HTML</abbr> абревіатури.</p>
+            
+            <p>Ще текст з спеціальними символами: x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup> та H<sub>2</sub>O.</p>
+            
+            <p><small>Це маленький текст для додаткової інформації.</small></p>
+            
+            <blockquote>
+                <p>Це цитата. Вона виділяється візуально від основного тексту і має бокову лінію зліва.</p>
+            </blockquote>
+            
+            <pre><code>// Приклад коду
+function hello() {
+    console.log("Привіт, світ!");
+    return true;
+}</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Списки</h2>
+            
+            <h3>Ненумерований список</h3>
+            <ul>
+                <li>Перший елемент списку</li>
+                <li>Другий елемент списку</li>
+                <li>Третій елемент з підсписком:
+                    <ul>
+                        <li>Вкладений елемент 1</li>
+                        <li>Вкладений елемент 2</li>
+                    </ul>
+                </li>
+                <li>Четвертий елемент</li>
+            </ul>
+            
+            <h3>Нумерований список</h3>
+            <ol>
+                <li>Перший крок</li>
+                <li>Другий крок</li>
+                <li>Третій крок</li>
+                <li>Четвертий крок</li>
+            </ol>
+            
+            <h3>Description list</h3>
+            <dl>
+                <dt>HTML</dt>
+                <dd>HyperText Markup Language - мова розмітки</dd>
+                
+                <dt>CSS</dt>
+                <dd>Cascading Style Sheets - каскадні таблиці стилів</dd>
+                
+                <dt>JavaScript</dt>
+                <dd>Мова програмування для веб-браузерів</dd>
+            </dl>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Таблиці</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ім'я</th>
+                        <th>Вік</th>
+                        <th>Місто</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Олексій</td>
+                        <td>25</td>
+                        <td>Київ</td>
+                        <td>alex@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Марія</td>
+                        <td>28</td>
+                        <td>Львів</td>
+                        <td>maria@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Іван</td>
+                        <td>32</td>
+                        <td>Одеса</td>
+                        <td>ivan@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Форми</h2>
+            
+            <form>
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" placeholder="Введіть ваше ім'я">
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="example@email.com">
+                
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" placeholder="••••••••">
+                
+                <label for="number">Число:</label>
+                <input type="number" id="number" min="0" max="100" value="50">
+                
+                <label for="date">Дата:</label>
+                <input type="date" id="date">
+                
+                <label for="color">Колір:</label>
+                <input type="color" id="color" value="#e87840">
+                
+                <label for="range">Діапазон:</label>
+                <input type="range" id="range" min="0" max="100" value="50">
+                
+                <label for="country">Країна:</label>
+                <select id="country">
+                    <option>Україна</option>
+                    <option>Польща</option>
+                    <option>Німеччина</option>
+                    <option>США</option>
+                </select>
+                
+                <label for="message">Повідомлення:</label>
+                <textarea id="message" placeholder="Ваше повідомлення..."></textarea>
+                
+                <label for="file">Файл:</label>
+                <input type="file" id="file">
+                
+                <fieldset>
+                    <legend>Налаштування</legend>
+                    
+                    <label>
+                        <input type="checkbox"> Отримувати новини
+                    </label>
+                    
+                    <label>
+                        <input type="checkbox"> Погоджуюсь з умовами
+                    </label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Тип підписки</legend>
+                    
+                    <label>
+                        <input type="radio" name="subscription" checked> Безкоштовна
+                    </label>
+                    
+                    <label>
+                        <input type="radio" name="subscription"> Преміум
+                    </label>
+                </fieldset>
+                
+                <label for="progress">Прогрес:</label>
+                <progress id="progress" value="70" max="100"></progress>
+                
+                <label for="meter">Використання:</label>
+                <meter id="meter" min="0" max="100" low="33" high="66" optimum="80" value="85"></meter>
+                
+                <br>
+                
+                <button type="submit">Відправити</button>
+                <input type="reset" value="Скасувати">
+                <button type="button" disabled>Неактивна</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Медіа (Audio & Video)</h2>
+            
+            <h3>Audio плеєр</h3>
+            <audio controls>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Ваш браузер не підтримує audio елемент.
+            </audio>
+            
+            <h3>Video плеєр</h3>
+            <video controls poster="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=400&fit=crop">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Ваш браузер не підтримує video елемент.
+            </video>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Зображення</h2>
+            
+            <figure>
+                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=400&fit=crop" alt="Coding on laptop">
+                <figcaption>Програмування - мистецтво створювати з нічого</figcaption>
+            </figure>
+            
+            <p>Зображення автоматично адаптуються до ширини контейнера завдяки <code>max-width: 100%</code>.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Details & Summary</h2>
+            
+            <details>
+                <summary>Натисніть, щоб розгорнути</summary>
+                <p>Це прихований контент, який показується після натискання на summary. Дуже зручно для FAQ або додаткової інформації.</p>
+            </details>
+            
+            <details open>
+                <summary>Це вже відкрито</summary>
+                <p>Цей блок відкритий за замовчуванням завдяки атрибуту <code>open</code>.</p>
+            </details>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Nectar.css. Made with ❤️ in Ukraine.</p>
+        <p>Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine</p>
         <p><a href="index.html">← Повернутись на головну</a></p>
     </footer>
 </body>
