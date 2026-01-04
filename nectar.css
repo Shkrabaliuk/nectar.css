@@ -1,0 +1,134 @@
+/* ================================
+   NECTAR.CSS - Classless CSS Framework
+   Version: 1.0.0
+   ================================ */
+
+/* === CSS VARIABLES === */
+:root {
+    /* Colors */
+    --bg: #fff;
+    --bg-alt: #f0f0f0;
+    --text: #000;
+    --text-light: #666;
+    --heading: #000;
+    --link: #0060a0;
+    --link-visited: #70a0b0;
+    --link-hover: #b03000;
+    --border: rgba(0, 0, 0, 0.15);
+    --input-bg: #f0f0f0;
+    --input-text: #000;
+    --button-bg: #e87840;
+    --button-hover: #d86830;
+    --code-bg: #f8f8f8;
+    --mark-bg: #fffada;
+    --active: #ff4820;
+    --success: #009900;
+    --warning: #f0d040;
+    --error: #b03000;
+    
+    /* Typography */
+    --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "Consolas", "Courier New", monospace;
+    
+    /* Sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    
+    /* Border radius */
+    --radius: 6px;
+    --radius-sm: 3px;
+    
+    /* Layout */
+    --max-width: 1280px;
+    --content-width: 720px;
+    
+    /* Transitions */
+    --transition: 0.2s ease-out;
+}
+
+/* Manual dark theme toggle ONLY */
+:root.dark-theme {
+    --bg: rgb(32, 32, 32);
+    --bg-alt: rgb(40, 40, 40);
+    --text: rgb(192, 192, 192);
+    --text-light: rgb(128, 128, 128);
+    --heading: rgb(255, 255, 255);
+    --link: rgb(0, 128, 212);
+    --link-visited: rgb(64, 96, 144);
+    --link-hover: rgb(240, 64, 32);
+    --border: rgba(192, 192, 192, 0.25);
+    --input-bg: #404040;
+    --input-text: var(--text);
+    --button-bg: #f88850;
+    --button-hover: #ff6440;
+    --code-bg: #2a2a2a;
+    --mark-bg: #443300;
+    --active: #ff6440;
+    --success: rgb(64, 192, 32);
+    --error: rgb(240, 64, 32);
+}
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* === BASE === */
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body {
+    font-family: var(--font-main);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    padding: var(--space-lg);
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 { color: var(--heading); font-weight: bold; line-height: 1.2; margin: var(--space-xl) 0 var(--space-md); }
+h1:first-child { margin-top: 0; }
+h1 { font-size: var(--text-4xl); } h2 { font-size: var(--text-3xl); } h3 { font-size: var(--text-2xl); }
+p { margin-bottom: var(--space-md); max-width: var(--content-width); }
+a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--border); transition: 0.2s; }
+a:hover { color: var(--link-hover); border-color: var(--link-hover); }
+
+/* === BUTTONS & FORMS === */
+button, input[type="submit"], input[type="button"], input[type="reset"] {
+    display: inline-block; padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-base); font-weight: 600; color: #fff;
+    background: var(--button-bg); border: none; border-radius: var(--radius);
+    cursor: pointer; transition: background var(--transition), transform var(--transition);
+    margin-right: var(--space-sm); margin-bottom: var(--space-sm);
+}
+button:hover, input[type="submit"]:hover { background: var(--button-hover); transform: translateY(-1px); }
+
+input, textarea, select {
+    width: 100%; max-width: 480px; padding: var(--space-sm);
+    background: var(--input-bg); color: var(--input-text);
+    border: 2px solid transparent; border-radius: var(--radius);
+    margin-bottom: var(--space-md);
+}
+input:focus, textarea:focus { outline: none; border-color: var(--link); }
+
+/* === OTHER === */
+pre, code { font-family: var(--font-mono); background: var(--code-bg); }
+pre { padding: var(--space-md); border-radius: var(--radius); overflow-x: auto; border: 1px solid var(--border); }
+code { padding: 0.2em 0.4em; border-radius: var(--radius-sm); font-size: 0.9em; }
+img { max-width: 100%; height: auto; border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-lg); }
+th, td { padding: var(--space-sm); border-bottom: 1px solid var(--border); text-align: left; }
+hr { border: none; border-top: 1px solid var(--border); margin: var(--space-xl) 0; }
+blockquote { border-left: 4px solid var(--link); padding-left: var(--space-md); color: var(--text-light); font-style: italic; }
