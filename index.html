@@ -25,17 +25,18 @@
             line-height: 1.5;
             color: var(--text);
             background: var(--bg);
-            /* Використовуємо dvh для коректного відображення на мобільних */
+            
+            /* Центрування */
             min-height: 100dvh; 
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 20px;
+            justify-content: center; /* Центрує по вертикалі */
+            align-items: center;     /* Центрує по горизонталі */
+            position: relative;      /* Важливо для абсолютних елементів всередині */
+            overflow-x: hidden;      /* Запобігає горизонтальній прокрутці */
         }
 
-        /* Кнопка мови */
+        /* === Кнопка мови (Верхній правий кут) === */
         #langToggle {
             position: absolute;
             top: 20px;
@@ -58,10 +59,13 @@
         #langToggle:hover { transform: scale(1.05); }
         #langToggle:active { transform: scale(0.95); }
 
+        /* === Основний контент === */
         main {
             max-width: 800px;
             width: 100%;
             text-align: center;
+            padding: 20px;
+            /* Важливо: flex працює краще, коли margin не заважають */
         }
 
         h1 {
@@ -78,7 +82,7 @@
             color: var(--text-light);
             margin-bottom: 2rem;
             font-weight: 300;
-            min-height: 1.5em; /* Резервуємо місце, щоб текст не стрибав */
+            min-height: 1.5em;
         }
 
         .cta {
@@ -89,10 +93,9 @@
             flex-wrap: wrap;
         }
 
-        /* Фіксована ширина кнопок, щоб не стрибали */
         button.primary, button.secondary {
-            padding: 0.8rem 0; /* Прибираємо бокові паддінги, бо є ширина */
-            width: 150px;      /* Фіксована ширина */
+            padding: 0.8rem 0;
+            width: 150px;
             font-family: inherit;
             font-size: 1rem;
             font-weight: 600;
@@ -119,22 +122,41 @@
         }
         .feature { color: var(--text); font-weight: 500; font-size: 0.95rem; }
 
+        /* === Футер (Нижній центр) === */
         footer {
-            margin-top: auto; /* Притискає футер до низу, якщо контенту мало */
-            padding-top: 2rem;
+            position: absolute; /* Вирвали з потоку */
+            bottom: 20px;       /* Прибили до низу */
+            left: 0;
+            right: 0;
             font-size: 0.85rem;
             color: var(--text-light);
             text-align: center;
             width: 100%;
+            pointer-events: none; /* Щоб не перекривав кліки, якщо прозорий */
         }
+        
+        footer p { pointer-events: auto; } /* Повертаємо кліки для тексту */
+
         footer a { color: var(--text); text-decoration: none; font-weight: 600; border-bottom: 1px dotted var(--text-light); }
         footer a:hover { color: var(--button-bg); border-bottom-style: solid; }
 
+        /* Адаптив */
         @media (max-width: 600px) {
             h1 { font-size: 2.5rem; }
             .features { grid-template-columns: 1fr; gap: 0.5rem; }
             .cta { flex-direction: column; align-items: center; }
             button.primary, button.secondary { width: 100%; max-width: 280px; }
+            
+            /* На мобільних, якщо екран малий, футер може налізти на контент. 
+               Робимо його не фіксованим, якщо висота мала */
+            @media (max-height: 700px) {
+                body {
+                    justify-content: flex-start; /* Не центруємо, а пускаємо зверху */
+                    padding-top: 80px; /* Місце під кнопку мови */
+                    padding-bottom: 60px; /* Місце під футер */
+                }
+                /* main залишається як є */
+            }
         }
     </style>
 </head>
@@ -168,8 +190,6 @@
 
     <script>
         const langToggle = document.getElementById('langToggle');
-        
-        // Єдиний HTML для футера, щоб він не стрибав і мав серце
         const footerHTML = 'Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine';
 
         const translations = {
@@ -200,7 +220,7 @@
         const savedLang = localStorage.getItem('lang') || 'en';
         document.documentElement.lang = savedLang;
         langToggle.textContent = savedLang === 'en' ? 'UA' : 'EN';
-        document.getElementById('footer').innerHTML = footerHTML; // Встановлюємо футер одразу
+        document.getElementById('footer').innerHTML = footerHTML;
 
         if (savedLang === 'ua') updateContent('ua');
 
