@@ -5,7 +5,7 @@ CSS-фреймворк без класів для семантичного HTML.
 
 ---
 
-<details open>
+<details>
 <summary><strong>English</strong></summary>
 
 ## Features
