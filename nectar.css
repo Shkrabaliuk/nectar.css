@@ -1,134 +1,269 @@
 /* ================================
    NECTAR.CSS - Classless CSS Framework
-   Version: 1.0.0
    ================================ */
 
-/* === CSS VARIABLES === */
 :root {
-    /* Colors */
-    --bg: #fff;
-    --bg-alt: #f0f0f0;
-    --text: #000;
-    --text-light: #666;
-    --heading: #000;
-    --link: #0060a0;
-    --link-visited: #70a0b0;
-    --link-hover: #b03000;
-    --border: rgba(0, 0, 0, 0.15);
-    --input-bg: #f0f0f0;
-    --input-text: #000;
-    --button-bg: #e87840;
-    --button-hover: #d86830;
+    /* === VARIABLES FROM SOURCE === */
+    --backgroundColor: #fff;
+    --backgroundTransparentColor: rgba(255, 255, 255, 0.8);
+    --sheetBackgroundColor: rgba(240, 240, 240, 0.8);
+    --foregroundColor: #000;
+    --thinRuleColor: rgba(0, 0, 0, 0.15);
+    --headingsColor: #000;
+    --headingsUnderlineColor: rgba(0, 0, 0, 0.15);
+    --boldColor: #000;
+    --linkColor: #0060a0;
+    --linkUnderlineColor: rgba(0, 96, 160, 0.15);
+    --linkColorVisited: #70a0b0;
+    --linkUnderlineColorVisited: rgba(112, 160, 176, 0.15);
+    --hoverColor: #b03000;
+    --hoverUnderlineColor: rgba(176, 48, 0, 0.15);
     --code-bg: #f8f8f8;
-    --mark-bg: #fffada;
-    --active: #ff4820;
-    --success: #009900;
-    --warning: #f0d040;
-    --error: #b03000;
+    --markedTextBackground: #fffada;
+    --inputBackgroundColor: #f0f0f0;
+    --inputTextColor: #000;
+    --imageBorderColor: #e8e8e8;
+    --button-bg-start: #f8f8f8;
+    --button-bg-end: #f0f0f0;
+    --submit-bg-start: #f88850;
+    --submit-bg-end: #d86830;
+    --submit-text: #fff;
     
-    /* Typography */
-    --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-mono: "Consolas", "Courier New", monospace;
-    
-    /* Sizes */
-    --text-xs: 0.75rem;
-    --text-sm: 0.875rem;
-    --text-base: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.25rem;
-    --text-2xl: 1.5rem;
-    --text-3xl: 1.875rem;
-    --text-4xl: 2.25rem;
+    /* Fonts & Sizes */
+    --mainFontFamily: system-ui, -apple-system, BlinkMacSystemFont, "SF UI Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --monoFontFamily: "Consolas", "Courier New", monospace;
+    --borderRadius: 6px;
+    --maxWidth: 1024px; /* Трохи зменшив для кращого читання тексту */
+    --baseFontSize: 17px;
+    --lineHeight: 1.55;
     
     /* Spacing */
-    --space-xs: 0.25rem;
-    --space-sm: 0.5rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
+    --space-md: 1.5rem;
+    --space-lg: 3rem;
     
-    /* Border radius */
-    --radius: 6px;
-    --radius-sm: 3px;
-    
-    /* Layout */
-    --max-width: 1280px;
-    --content-width: 720px;
-    
-    /* Transitions */
-    --transition: 0.2s ease-out;
+    /* Animation */
+    --time: .2s;
 }
 
-/* Manual dark theme toggle ONLY */
+/* === DARK THEME OVERRIDES === */
+/* Вмикається класом .dark-theme */
 :root.dark-theme {
-    --bg: rgb(32, 32, 32);
-    --bg-alt: rgb(40, 40, 40);
-    --text: rgb(192, 192, 192);
-    --text-light: rgb(128, 128, 128);
-    --heading: rgb(255, 255, 255);
-    --link: rgb(0, 128, 212);
-    --link-visited: rgb(64, 96, 144);
-    --link-hover: rgb(240, 64, 32);
-    --border: rgba(192, 192, 192, 0.25);
-    --input-bg: #404040;
-    --input-text: var(--text);
-    --button-bg: #f88850;
-    --button-hover: #ff6440;
+    --backgroundColor: rgb(32, 32, 32);
+    --backgroundTransparentColor: rgba(32, 32, 32, .8);
+    --sheetBackgroundColor: rgba(40, 40, 40, .8);
+    --foregroundColor: rgb(192, 192, 192);
+    --thinRuleColor: rgba(192, 192, 192, .25);
+    --headingsColor: rgb(255, 255, 255);
+    --headingsUnderlineColor: rgba(255, 255, 255, .25);
+    --boldColor: var(--foregroundColor);
+    --linkColor: rgb(0, 128, 212);
+    --linkUnderlineColor: rgba(0, 128, 212, .25);
+    --linkColorVisited: rgb(64, 96, 144);
+    --linkUnderlineColorVisited: rgba(64, 96, 144, .25);
+    --hoverColor: rgb(240, 64, 32);
+    --hoverUnderlineColor: rgba(240, 64, 32, .25);
     --code-bg: #2a2a2a;
-    --mark-bg: #443300;
-    --active: #ff6440;
-    --success: rgb(64, 192, 32);
-    --error: rgb(240, 64, 32);
+    --markedTextBackground: #443300;
+    --inputBackgroundColor: #404040;
+    --inputTextColor: var(--foregroundColor);
+    --imageBorderColor: #404040;
+    --button-bg-start: #4a4a4a;
+    --button-bg-end: #3a3a3a;
 }
 
-/* === RESET === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; }
 
-/* === BASE === */
-html { font-size: 16px; -webkit-font-smoothing: antialiased; }
 body {
-    font-family: var(--font-main);
-    font-size: var(--text-base);
-    line-height: 1.6;
-    color: var(--text);
-    background: var(--bg);
-    padding: var(--space-lg);
-    max-width: var(--max-width);
     margin: 0 auto;
+    padding: var(--space-lg) 20px;
+    max-width: var(--maxWidth);
+    background: var(--backgroundColor);
+    color: var(--foregroundColor);
+    font-family: var(--mainFontFamily);
+    font-size: var(--baseFontSize);
+    line-height: var(--lineHeight);
+    text-align: left;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* === TYPOGRAPHY === */
-h1, h2, h3, h4, h5, h6 { color: var(--heading); font-weight: bold; line-height: 1.2; margin: var(--space-xl) 0 var(--space-md); }
+h1, h2, h3, h4, h5, h6 {
+    color: var(--headingsColor);
+    font-weight: bold;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
 h1:first-child { margin-top: 0; }
-h1 { font-size: var(--text-4xl); } h2 { font-size: var(--text-3xl); } h3 { font-size: var(--text-2xl); }
-p { margin-bottom: var(--space-md); max-width: var(--content-width); }
-a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--border); transition: 0.2s; }
-a:hover { color: var(--link-hover); border-color: var(--link-hover); }
 
-/* === BUTTONS & FORMS === */
-button, input[type="submit"], input[type="button"], input[type="reset"] {
-    display: inline-block; padding: var(--space-sm) var(--space-lg);
-    font-size: var(--text-base); font-weight: 600; color: #fff;
-    background: var(--button-bg); border: none; border-radius: var(--radius);
-    cursor: pointer; transition: background var(--transition), transform var(--transition);
-    margin-right: var(--space-sm); margin-bottom: var(--space-sm);
-}
-button:hover, input[type="submit"]:hover { background: var(--button-hover); transform: translateY(-1px); }
+h1 { font-size: 2.25em; letter-spacing: -0.5px; }
+h2 { font-size: 1.75em; }
+h3 { font-size: 1.35em; }
+h4 { font-size: 1.15em; }
 
-input, textarea, select {
-    width: 100%; max-width: 480px; padding: var(--space-sm);
-    background: var(--input-bg); color: var(--input-text);
-    border: 2px solid transparent; border-radius: var(--radius);
+p, ul, ol, dl, table, blockquote, pre, form {
     margin-bottom: var(--space-md);
+    max-width: 760px; /* Оптимальна ширина для читання */
 }
-input:focus, textarea:focus { outline: none; border-color: var(--link); }
 
-/* === OTHER === */
-pre, code { font-family: var(--font-mono); background: var(--code-bg); }
-pre { padding: var(--space-md); border-radius: var(--radius); overflow-x: auto; border: 1px solid var(--border); }
-code { padding: 0.2em 0.4em; border-radius: var(--radius-sm); font-size: 0.9em; }
-img { max-width: 100%; height: auto; border-radius: var(--radius); }
-table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-lg); }
-th, td { padding: var(--space-sm); border-bottom: 1px solid var(--border); text-align: left; }
-hr { border: none; border-top: 1px solid var(--border); margin: var(--space-xl) 0; }
-blockquote { border-left: 4px solid var(--link); padding-left: var(--space-md); color: var(--text-light); font-style: italic; }
+/* Specific Link Style from Source */
+a {
+    color: var(--linkColor);
+    text-decoration: none;
+    border-bottom: 1px solid var(--linkUnderlineColor);
+    transition: border-color var(--time) ease-out, color var(--time) ease-out;
+}
+a:visited { color: var(--linkColorVisited); border-color: var(--linkUnderlineColorVisited); }
+a:hover { color: var(--hoverColor); border-color: var(--hoverUnderlineColor); transition: none; }
+
+b, strong { color: var(--boldColor); font-weight: bold; }
+small { font-size: 0.85em; }
+
+/* === LISTS === */
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 0.25em; }
+ul li { list-style-type: disc; }
+
+/* === CODE === */
+pre, code, kbd, samp { font-family: var(--monoFontFamily); }
+code {
+    background: var(--inputBackgroundColor); /* Використовуємо фон інпутів для інлайн коду */
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+pre {
+    background: var(--code-bg);
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: var(--borderRadius);
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+/* === BLOCKQUOTE === */
+blockquote {
+    border-left: 2px solid var(--foregroundColor);
+    padding-left: 20px;
+    margin-left: 0;
+    font-style: italic;
+    color: var(--headingsColor);
+}
+
+/* === FORMS === */
+input, textarea, select {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    background: var(--inputBackgroundColor);
+    color: var(--inputTextColor);
+    border-radius: var(--borderRadius);
+    transition: background var(--time);
+    margin-bottom: 1em;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--linkColor);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.4em;
+    color: var(--headingsColor);
+}
+
+/* Checkboxes & Radios */
+input[type="checkbox"], input[type="radio"] {
+    display: inline-block;
+    width: auto;
+    margin-right: 0.5em;
+    margin-bottom: 0;
+}
+
+/* Buttons (Based on .e2-button style) */
+button, input[type="submit"], input[type="reset"], input[type="button"] {
+    display: inline-block;
+    width: auto;
+    padding: 8px 20px;
+    font-size: 1rem;
+    font-weight: normal;
+    background: linear-gradient(to bottom, var(--button-bg-start) 0%, var(--button-bg-end) 100%);
+    color: var(--foregroundColor);
+    border: none;
+    border-radius: var(--borderRadius);
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+    margin-right: 10px;
+}
+
+button:hover, input[type="submit"]:hover {
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+/* Primary Button Style (like .e2-submit-button) */
+input[type="submit"], button[type="submit"], button.primary {
+    background: linear-gradient(to bottom, var(--submit-bg-start) 0%, var(--submit-bg-end) 100%);
+    color: var(--submit-text);
+    font-weight: bold;
+    box-shadow: none;
+}
+input[type="submit"]:hover, button[type="submit"]:hover {
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.1);
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* === TABLES === */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+}
+th, td {
+    padding: 8px 12px 8px 0; /* Align left cleanly */
+    text-align: left;
+    border-bottom: 1px solid var(--thinRuleColor);
+}
+th { font-weight: bold; color: var(--headingsColor); }
+
+/* === IMAGES & MEDIA === */
+img, video {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--borderRadius);
+    /* Image border effect from source */
+    border: 1px solid var(--imageBorderColor);
+}
+figure { margin: 0 0 var(--space-md) 0; }
+figcaption {
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* === HR === */
+hr {
+    border: none;
+    border-top: 1px solid var(--thinRuleColor);
+    margin: var(--space-lg) 0;
+}
+
+/* === UTILS === */
+mark { background: var(--markedTextBackground); color: inherit; padding: 0 2px; }
+
+/* === HEADER & FOOTER === */
+header { margin-bottom: var(--space-lg); }
+footer {
+    margin-top: auto;
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--thinRuleColor);
+    font-size: 0.85em;
+    color: #888;
+}
