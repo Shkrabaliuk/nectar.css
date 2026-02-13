@@ -3,16 +3,23 @@
    ================================ */
 
 :root {
-    /* === VARIABLES FROM SOURCE === */
-    --backgroundColor: #fff;
+    /* === PUBLIC THEME TOKENS (documented in README) === */
+    --bg: #fff;
+    --text: #000;
+    --link: #0060a0;
+    --button-bg: #f88850;
+    --max-width: 1024px;
+
+    /* === INTERNAL TOKENS (kept for compatibility) === */
+    --backgroundColor: var(--bg);
     --backgroundTransparentColor: rgba(255, 255, 255, 0.8);
     --sheetBackgroundColor: rgba(240, 240, 240, 0.8);
-    --foregroundColor: #000;
+    --foregroundColor: var(--text);
     --thinRuleColor: rgba(0, 0, 0, 0.15);
     --headingsColor: #000;
     --headingsUnderlineColor: rgba(0, 0, 0, 0.15);
     --boldColor: #000;
-    --linkColor: #0060a0;
+    --linkColor: var(--link);
     --linkUnderlineColor: rgba(0, 96, 160, 0.15);
     --linkColorVisited: #70a0b0;
     --linkUnderlineColorVisited: rgba(112, 160, 176, 0.15);
@@ -25,7 +32,7 @@
     --imageBorderColor: #e8e8e8;
     --button-bg-start: #f8f8f8;
     --button-bg-end: #f0f0f0;
-    --submit-bg-start: #f88850;
+    --submit-bg-start: var(--button-bg);
     --submit-bg-end: #d86830;
     --submit-text: #fff;
     
@@ -33,7 +40,7 @@
     --mainFontFamily: system-ui, -apple-system, BlinkMacSystemFont, "SF UI Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --monoFontFamily: "Consolas", "Courier New", monospace;
     --borderRadius: 6px;
-    --maxWidth: 1024px; /* Трохи зменшив для кращого читання тексту */
+    --maxWidth: var(--max-width); /* Трохи зменшив для кращого читання тексту */
     --baseFontSize: 17px;
     --lineHeight: 1.55;
     
@@ -47,8 +54,41 @@
 
 /* === DARK THEME OVERRIDES === */
 /* Автоматичний темний режим за системними налаштуваннями */
+:root.dark-theme {
+        --bg: rgb(32, 32, 32);
+        --text: rgb(192, 192, 192);
+        --link: rgb(0, 128, 212);
+        --button-bg: #f88850;
+        --backgroundColor: rgb(32, 32, 32);
+        --backgroundTransparentColor: rgba(32, 32, 32, .8);
+        --sheetBackgroundColor: rgba(40, 40, 40, .8);
+        --foregroundColor: rgb(192, 192, 192);
+        --thinRuleColor: rgba(192, 192, 192, .25);
+        --headingsColor: rgb(255, 255, 255);
+        --headingsUnderlineColor: rgba(255, 255, 255, .25);
+        --boldColor: var(--foregroundColor);
+        --linkColor: rgb(0, 128, 212);
+        --linkUnderlineColor: rgba(0, 128, 212, .25);
+        --linkColorVisited: rgb(64, 96, 144);
+        --linkUnderlineColorVisited: rgba(64, 96, 144, .25);
+        --hoverColor: rgb(240, 64, 32);
+        --hoverUnderlineColor: rgba(240, 64, 32, .25);
+        --code-bg: #2a2a2a;
+        --markedTextBackground: #443300;
+        --inputBackgroundColor: #404040;
+        --inputTextColor: var(--foregroundColor);
+        --imageBorderColor: #404040;
+        --button-bg-start: #4a4a4a;
+        --button-bg-end: #3a3a3a;
+}
+
+/* Автоматичний темний режим за системними налаштуваннями */
 @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not(.light-theme) {
+        --bg: rgb(32, 32, 32);
+        --text: rgb(192, 192, 192);
+        --link: rgb(0, 128, 212);
+        --button-bg: #f88850;
         --backgroundColor: rgb(32, 32, 32);
         --backgroundTransparentColor: rgba(32, 32, 32, .8);
         --sheetBackgroundColor: rgba(40, 40, 40, .8);
@@ -71,31 +111,6 @@
         --button-bg-start: #4a4a4a;
         --button-bg-end: #3a3a3a;
     }
-}
-
-/* Ручне увімкнення темної теми класом .dark-theme */
-:root.dark-theme {
-    --backgroundColor: rgb(32, 32, 32);
-    --backgroundTransparentColor: rgba(32, 32, 32, .8);
-    --sheetBackgroundColor: rgba(40, 40, 40, .8);
-    --foregroundColor: rgb(192, 192, 192);
-    --thinRuleColor: rgba(192, 192, 192, .25);
-    --headingsColor: rgb(255, 255, 255);
-    --headingsUnderlineColor: rgba(255, 255, 255, .25);
-    --boldColor: var(--foregroundColor);
-    --linkColor: rgb(0, 128, 212);
-    --linkUnderlineColor: rgba(0, 128, 212, .25);
-    --linkColorVisited: rgb(64, 96, 144);
-    --linkUnderlineColorVisited: rgba(64, 96, 144, .25);
-    --hoverColor: rgb(240, 64, 32);
-    --hoverUnderlineColor: rgba(240, 64, 32, .25);
-    --code-bg: #2a2a2a;
-    --markedTextBackground: #443300;
-    --inputBackgroundColor: #404040;
-    --inputTextColor: var(--foregroundColor);
-    --imageBorderColor: #404040;
-    --button-bg-start: #4a4a4a;
-    --button-bg-end: #3a3a3a;
 }
 
 /* === RESET & BASE === */
@@ -145,6 +160,11 @@ a {
 }
 a:visited { color: var(--linkColorVisited); border-color: var(--linkUnderlineColorVisited); }
 a:hover { color: var(--hoverColor); border-color: var(--hoverUnderlineColor); transition: none; }
+a:focus-visible {
+    outline: 2px solid var(--linkColor);
+    outline-offset: 2px;
+    border-bottom-color: transparent;
+}
 
 b, strong { color: var(--boldColor); font-weight: bold; }
 small { font-size: 0.85em; }
@@ -198,6 +218,14 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     box-shadow: inset 0 0 0 1px var(--linkColor);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--linkColor);
+    outline-offset: 2px;
 }
 
 label {
@@ -293,4 +321,13 @@ footer {
     border-top: 1px solid var(--thinRuleColor);
     font-size: 0.85em;
     color: #888;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
