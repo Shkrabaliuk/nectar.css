@@ -46,7 +46,34 @@
 }
 
 /* === DARK THEME OVERRIDES === */
-/* Вмикається класом .dark-theme */
+/* Автоматичний темний режим за системними налаштуваннями */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --backgroundColor: rgb(32, 32, 32);
+        --backgroundTransparentColor: rgba(32, 32, 32, .8);
+        --sheetBackgroundColor: rgba(40, 40, 40, .8);
+        --foregroundColor: rgb(192, 192, 192);
+        --thinRuleColor: rgba(192, 192, 192, .25);
+        --headingsColor: rgb(255, 255, 255);
+        --headingsUnderlineColor: rgba(255, 255, 255, .25);
+        --boldColor: var(--foregroundColor);
+        --linkColor: rgb(0, 128, 212);
+        --linkUnderlineColor: rgba(0, 128, 212, .25);
+        --linkColorVisited: rgb(64, 96, 144);
+        --linkUnderlineColorVisited: rgba(64, 96, 144, .25);
+        --hoverColor: rgb(240, 64, 32);
+        --hoverUnderlineColor: rgba(240, 64, 32, .25);
+        --code-bg: #2a2a2a;
+        --markedTextBackground: #443300;
+        --inputBackgroundColor: #404040;
+        --inputTextColor: var(--foregroundColor);
+        --imageBorderColor: #404040;
+        --button-bg-start: #4a4a4a;
+        --button-bg-end: #3a3a3a;
+    }
+}
+
+/* Ручне увімкнення темної теми класом .dark-theme */
 :root.dark-theme {
     --backgroundColor: rgb(32, 32, 32);
     --backgroundTransparentColor: rgba(32, 32, 32, .8);
