@@ -44,8 +44,8 @@ Override CSS variables:
   --bg: #ffffff;
   --text: #000000;
   --link: #0060a0;
-  --button-bg: #e87840;
-  --max-width: 1280px;
+  --button-bg: #f88850;
+  --max-width: 1024px;
 }
 ```
 
@@ -99,8 +99,8 @@ document.documentElement.classList.toggle('dark-theme');
   --bg: #ffffff;
   --text: #000000;
   --link: #0060a0;
-  --button-bg: #e87840;
-  --max-width: 1280px;
+  --button-bg: #f88850;
+  --max-width: 1024px;
 }
 ```
 
@@ -114,6 +114,23 @@ document.documentElement.classList.toggle('dark-theme');
 ```
 
 </details>
+
+## Accessibility
+
+- Visible keyboard focus with `:focus-visible` for links, buttons and form controls.
+- Reduced motion support via `@media (prefers-reduced-motion: reduce)`.
+
+## Доступність
+
+- Видимий фокус клавіатури через `:focus-visible` для посилань, кнопок та полів форми.
+- Підтримка зменшення руху через `@media (prefers-reduced-motion: reduce)`.
+
+---
+
+## Project review / Аналіз проєкту
+
+See actionable improvement ideas in [`PROJECT_IMPROVEMENTS.md`](PROJECT_IMPROVEMENTS.md).
+Дивіться практичні варіанти покращення у [`PROJECT_IMPROVEMENTS.md`](PROJECT_IMPROVEMENTS.md).
 
 ---
 
