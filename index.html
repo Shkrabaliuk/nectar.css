@@ -15,6 +15,18 @@
             --bg-alt: #f0f0f0;
             --font-main: system-ui, -apple-system, sans-serif;
             --transition: 0.2s ease-out;
+            --control-bg: #000;
+            --control-icon-filter: invert(1);
+        }
+
+        .dark-theme {
+            --bg: #111;
+            --text: #f1f1f1;
+            --text-light: #c9c9c9;
+            --heading: #fff;
+            --bg-alt: #2a2a2a;
+            --control-bg: #f0f0f0;
+            --control-icon-filter: none;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,28 +48,38 @@
             overflow-x: hidden;      /* Запобігає горизонтальній прокрутці */
         }
 
-        /* === Кнопка мови (Верхній правий кут) === */
-        #langToggle {
+        /* === Кнопки управління (Верхній правий кут) === */
+        .controls {
             position: absolute;
             top: 20px;
             right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .icon-toggle {
             width: 44px;
             height: 44px;
-            background: #000;
+            background: var(--control-bg);
             color: #fff;
             border: none;
             border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
             cursor: pointer;
             transition: transform 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
         }
-        #langToggle:hover { transform: scale(1.05); }
-        #langToggle:active { transform: scale(0.95); }
+
+        .icon-toggle img {
+            width: 20px;
+            height: 20px;
+            filter: var(--control-icon-filter);
+        }
+
+        .icon-toggle:hover { transform: scale(1.05); }
+        .icon-toggle:active { transform: scale(0.95); }
 
         /* === Основний контент === */
         main {
@@ -161,7 +183,14 @@
     </style>
 </head>
 <body>
-    <button id="langToggle">UA</button>
+    <div class="controls">
+        <button id="themeToggle" class="icon-toggle" title="Toggle theme" aria-label="Toggle theme">
+            <img id="themeIcon" src="icons/night.svg" alt="Theme toggle icon">
+        </button>
+        <button id="langToggle" class="icon-toggle" title="Switch language" aria-label="Switch language">
+            <img src="icons/language.svg" alt="Language toggle icon">
+        </button>
+    </div>
 
     <main>
         <h1>🍑 Nectar.css</h1>
@@ -190,7 +219,28 @@
 
     <script>
         const langToggle = document.getElementById('langToggle');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const root = document.documentElement;
         const footerHTML = 'Created by <a href="https://github.com/Shkrabaliuk">Shkrabaliuk</a> with ❤️ to Ukraine';
+
+        function updateThemeIcon() {
+            const isDark = root.classList.contains('dark-theme');
+            themeIcon.src = isDark ? 'icons/sun.svg' : 'icons/night.svg';
+            themeToggle.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+            themeToggle.setAttribute('aria-label', themeToggle.title);
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            root.classList.add('dark-theme');
+        }
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            root.classList.toggle('dark-theme');
+            localStorage.setItem('theme', root.classList.contains('dark-theme') ? 'dark' : 'light');
+            updateThemeIcon();
+        });
 
         const translations = {
             en: {
@@ -219,7 +269,8 @@
 
         const savedLang = localStorage.getItem('lang') || 'en';
         document.documentElement.lang = savedLang;
-        langToggle.textContent = savedLang === 'en' ? 'UA' : 'EN';
+        langToggle.title = savedLang === 'en' ? 'Перемкнути на українську' : 'Switch to English';
+        langToggle.setAttribute('aria-label', langToggle.title);
         document.getElementById('footer').innerHTML = footerHTML;
 
         if (savedLang === 'ua') updateContent('ua');
@@ -228,7 +279,8 @@
             const currentLang = document.documentElement.lang;
             const newLang = currentLang === 'en' ? 'ua' : 'en';
             document.documentElement.lang = newLang;
-            langToggle.textContent = newLang === 'en' ? 'UA' : 'EN';
+            langToggle.title = newLang === 'en' ? 'Перемкнути на українську' : 'Switch to English';
+            langToggle.setAttribute('aria-label', langToggle.title);
             localStorage.setItem('lang', newLang);
             updateContent(newLang);
         });
